@@ -1,0 +1,47 @@
+Iniciar e criar o package.json
+    - npm init -y
+
+Instalar o Typescript
+    - npm i Typescript @types/node -D
+    - npx tsc --init
+
+Adequar o Typescript - Google: tsconfig bases
+    - Procurar pela versão do node utilizada e substituir no arquivo 'tsconfig.json'.
+
+Converter o código de TS para JS, converte de Typescript para Javascript com um comando
+    - npm i tsx -D
+    
+    Modificar no package.json para rodar o script:
+        - scripts: {
+            "dev": "tsx watch src/server.ts"
+        }
+
+Fastify - Importar no arquivo server
+    - npm i fastify
+
+        import fastify from 'fastify';
+        const app = fastify();
+        app.get('/teste', () => {
+            return 'Hellow'
+        })
+
+        app.listen({ port: 3333 }).then(() => {
+            console.log("Server running.");
+        });
+
+Prisma
+    - npm i Prisma -D
+    - npx prisma migrate dev
+     
+     - Utilizado no schema o @@map('trips') - Pois o model no Prisma requer que seja com letra maiúscula,
+     ao realizar essa ação, iremos gravar no banco como 'trips'.
+
+Zod - Utilizado para validar os dados de entrada;
+    - npm install zod
+
+    - fastify-type-provider-zod  :: Integração com o Fastify -> Link: https://github.com/turkerdev/fastify-type-provider-zod
+
+
+
+
+
