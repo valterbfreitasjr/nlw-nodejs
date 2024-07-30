@@ -41,6 +41,16 @@ Zod - Utilizado para validar os dados de entrada;
 
     - fastify-type-provider-zod  :: Integração com o Fastify -> Link: https://github.com/turkerdev/fastify-type-provider-zod
 
+    * O .coerce. no arquivo 'create-trip' realiza uma conversão dos dados de entrada para o tipo desejado.
+
+Dayjs - API de datas;
+
+Mailtrap - Utilizado para teste de envios de e-mail, onde é criado um servidor STMP para testes.
+
+** CORS
+    - npm i @fastify/cors  -- Para permitirmos o acesso do front-end, permite a origem;
+        Importar no 'server.ts': import cors from '@fastify/cors';
+
 
 
 
