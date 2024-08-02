@@ -37,7 +37,7 @@ export async function confirmTrip(app: FastifyInstance) {
       }
 
       if (trip.is_confirmed) {
-        reply.redirect(`http://localhost:5173/trips/${tripId}`);
+        return reply.redirect(`http://localhost:3333/trips/${tripId}`);
       }
 
       await prisma.trip.update({
@@ -52,12 +52,11 @@ export async function confirmTrip(app: FastifyInstance) {
       const formattedStartDate = dayjs(trip.starts_at).format("LL");
       const formattedEndDate = dayjs(trip.ends_at).format("LL");
 
-      const confirmationLink = `http://localhost:3333/trips/${tripId}/confirm`;
-
       const mail = await getMailClient();
 
       await Promise.all(
         trip.participants.map(async (participant) => {
+          const confirmationLink = `http://localhost:3333/participants/${participant.id}/confirm`;
           const message = await mail.sendMail({
             from: {
               name: "Equipe plann.er",
@@ -68,13 +67,13 @@ export async function confirmTrip(app: FastifyInstance) {
             html: `
             <div style="font-family: sans-serif; font-size: 16px; line-height: 1.6">
               <p>
-                Você solicitou a criação de uma viagem para
+                Você foi convidado para participar de uma viagem para 
                 <strong>${trip.destination}</strong> nas datas de
                 <strong>${formattedStartDate}</strong> até <strong>${formattedEndDate}</strong>
               </p>
               <p></p>
               <p>
-                Para <strong>confirmar</strong> sua viagem,
+                Para <strong>confirmar</strong> sua presença na viagem,
                 <strong>click no link abaixo</strong>:
               </p>
               <p></p>
@@ -93,7 +92,7 @@ export async function confirmTrip(app: FastifyInstance) {
         })
       );
 
-      return { tripId: req.params.tripId };
+      return reply.redirect(`http://localhost:3333/trips/${tripId}`);
     }
   );
 }
