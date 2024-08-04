@@ -18,7 +18,7 @@ export async function createActivities(app: FastifyInstance) {
         }),
       },
     },
-    async (req, reply) => {
+    async (req) => {
       const { tripId } = req.params;
       const { title, occurs_at } = req.body;
 
