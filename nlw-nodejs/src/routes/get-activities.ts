@@ -47,7 +47,7 @@ export async function getActivities(app: FastifyInstance) {
         return {
           date: date.toDate(),
           activities: trip.activities.filter((activity) => {
-            return dayjs(activity.occurs_at).isSame(date);
+            return dayjs(activity.occurs_at).isSame(date, "days");
           }),
         };
       });
