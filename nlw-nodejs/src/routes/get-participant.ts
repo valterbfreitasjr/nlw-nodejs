@@ -2,42 +2,38 @@ import type { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
+import { ClientError } from "../error/client-error";
 
-export async function getParticipants(app: FastifyInstance) {
+export async function getParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
-    "/trips/:tripId/participants",
+    "/participants/:participantId",
     {
       schema: {
         params: z.object({
-          tripId: z.string().uuid(),
+          participantId: z.string().uuid(),
         }),
       },
     },
     async (req) => {
-      const { tripId } = req.params;
+      const { participantId } = req.params;
 
-      const trip = await prisma.trip.findUnique({
+      const participant = await prisma.participant.findUnique({
         where: {
-          id: tripId,
+          id: participantId,
         },
-        include: {
-          participants: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              is_confirmed: true,
-              is_owner: true,
-            },
-          },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          is_confirmed: true,
         },
       });
 
-      if (!trip) {
-        throw new Error("Trip not found");
+      if (!participant) {
+        throw new ClientError("participant not found");
       }
 
-      return { participants: trip.participants };
+      return { participant };
     }
   );
 }
